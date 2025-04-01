@@ -1,14 +1,8 @@
 from deck import Deck, Card
 
-class Hand:
-    """
-    Create the Hand class, which will draw 5 cards and store them
-    """
 
-    def _init_(self):
-        """
-        Draw 5 cards from the deck, using a for loop
-        """
+class Hand:
+    def __init__(self):
         hand = []
         for i in range(5):
             hand.append(deck.deal())
@@ -16,20 +10,13 @@ class Hand:
 
     @property
     def hand(self):
-        """
-        Remove the need for (), saving time.
-        returns: the hand
-        """
         return self._hand
 
-    def _str_(self):
+    def __str__(self):
         return str(self.hand)
 
     @property
     def is_flush(self):
-        """
-        Check if the hand is a flush. Established as a property since it is an action.
-        """
         for card in self.hand:
             if card.suit != self.hand[0].suit:
                 return False
@@ -41,8 +28,8 @@ class Hand:
         for i in range(5):
             for j in range(5):
                 if i == j:
-                    pass
-                elif self.hand[i].rank == self.hand[j].rank:
+                    continue
+                if self.hand[i].rank == self.hand[j].rank:
                     matches += 1
         return matches
 
@@ -53,26 +40,26 @@ class Hand:
         return False
 
     @property
-    def is_2pair(self):
+    def is_2_pair(self):
         if self.num_matches == 4:
             return True
         return False
 
     @property
-    def is_trip(self):
+    def is_trips(self):
         if self.num_matches == 6:
             return True
         return False
 
     @property
-    def is_quad(self):
-        if self.num_matches == 8:
+    def is_quads(self):
+        if self.num_matches == 12:
             return True
         return False
 
     @property
-    def is_quad(self):
-        if self.num_matches == 12:
+    def is_full_house(self):
+        if self.num_matches == 8:
             return True
         return False
 
@@ -80,8 +67,8 @@ class Hand:
     def is_straight(self):
         if self.num_matches != 0:
             return False
-        self.cards.sort()
-        if Card.RANKS.index(self.cards[-1].rank) != Card.RANKS.index(self.cards[0].rank) + 4:
+        self.hand.sort()
+        if Card.RANKS.index(self.hand[-1] != Card.RANKS.index(self.hand[0].rank) + 4):
             return False
         return True
 
@@ -90,23 +77,91 @@ class Hand:
 # h = Hand()
 # print(h)
 
-# while True:
-#     deck = Deck()
-#     deck.shuffle()
-#     h = Hand()
-#     if h.is_flush:
-#         print(h)
-#         break
-
-count = 0
 matches = 0
+count = 0
 while matches < 1000:
     deck = Deck()
     deck.shuffle()
-    h = Hand(deck)
+    h = Hand()
     count += 1
-    # if h.is_flush:
-    #     matches += 1
-    if h.is_quad:
+    if h.is_flush:
         matches += 1
-print(100 * (matches / count))
+        # break
+print(f"The probability of a flush is {100*matches/count}%")
+
+
+matches = 0
+count = 0
+while matches < 1000:
+    deck = Deck()
+    deck.shuffle()
+    h = Hand()
+    count += 1
+    if h.is_pair:
+        matches += 1
+        # break
+print(f"The probability of a pair is {100*matches/count}%")
+
+
+matches = 0
+count = 0
+while matches < 1000:
+    deck = Deck()
+    deck.shuffle()
+    h = Hand()
+    count += 1
+    if h.is_2_pair:
+        matches += 1
+        # break
+print(f"The probability of 2 pairs is {100*matches/count}%")
+
+
+matches = 0
+count = 0
+while matches < 1000:
+    deck = Deck()
+    deck.shuffle()
+    h = Hand()
+    count += 1
+    if h.is_trips:
+        matches += 1
+        # break
+print(f"The probability of trips is {100*matches/count}%")
+
+
+matches = 0
+count = 0
+while matches < 1000:
+    deck = Deck()
+    deck.shuffle()
+    h = Hand()
+    count += 1
+    if h.is_quads:
+        matches += 1
+        # break
+print(f"The probability of quads is {100*matches/count}%")
+
+
+matches = 0
+count = 0
+while matches < 100:
+    deck = Deck()
+    deck.shuffle()
+    h = Hand()
+    count += 1
+    if h.is_full_house:
+        matches += 1
+        # break
+print(f"The probability of full house is {100*matches/count}%")
+
+matches = 0
+count = 0
+while matches < 100:
+    deck = Deck()
+    deck.shuffle()
+    h = Hand()
+    count += 1
+    if h.is_straight:
+        matches += 1
+        # break
+print(f"The probability of straight is {100*matches/count}%")
